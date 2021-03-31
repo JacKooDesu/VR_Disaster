@@ -5,16 +5,14 @@ using UnityEngine;
 public class MoveFlowerpot : Stage
 {
     public Plant[] plants;
-    public Transform safePlace;
+
 
     public override void OnBegin()
     {
         base.OnBegin();
-        safePlace.gameObject.SetActive(true);
         foreach (Plant p in plants)
         {
-            p.fishRodInteract = true;
-            p.safePlace = this.safePlace;
+            p.GetComponent<Collider>().enabled = true;
         }
 
         JacDev.Audio.Flood a = (JacDev.Audio.Flood)GameHandler.Singleton.audioHandler;
@@ -45,10 +43,9 @@ public class MoveFlowerpot : Stage
 
     public override void OnFinish()
     {
-        foreach(Plant p in plants){
-            p.fishRodInteract = false;
+        foreach (Plant p in plants)
+        {
+            p.GetComponent<Collider>().enabled = false;
         }
-
-        safePlace.gameObject.SetActive(false);
     }
 }

@@ -1,26 +1,26 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.Events;
 
 public class SpecRainMeter : Stage
 {
-    public CustomInteractable interactArea;
+    public GameObject interactArea;
     public GameObject ui;
 
     public override void OnBegin()
     {
-        interactArea.gameObject.SetActive(true);
-        interactArea.onHoverBegin.AddListener(
-            delegate { 
-                StartCoroutine(ShowUI());
-                interactArea.gameObject.SetActive(false);
-            }
-        );
+        interactArea.SetActive(true);
+        EventTrigger trigger = interactArea.GetComponent<EventTrigger>();
+        EventTrigger.Entry entry = new EventTrigger.Entry();
+        entry.eventID = EventTriggerType.PointerClick;
+        entry.callback.AddListener(delegate { StartCoroutine(ShowUI()); });
+        trigger.triggers.Add(entry);
     }
 
     IEnumerator ShowUI()
     {
-        /*
         ui.SetActive(true);
         ui.GetComponentInChildren<UIQuickSetting>().TurnOn();
 
@@ -30,9 +30,6 @@ public class SpecRainMeter : Stage
         yield return new WaitForSeconds(a.specWaterMeter.length);
 
         ui.GetComponentInChildren<UIQuickSetting>().TurnOff();
-        */
-
         GameHandler.Singleton.StageFinish();
-        yield return null;
     }
 }

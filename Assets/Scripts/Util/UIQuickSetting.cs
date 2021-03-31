@@ -78,11 +78,11 @@ public class UIQuickSetting : MonoBehaviour
                     //GameHandler.Singleton.BlurCamera(false);
                 });
 
-            GameHandler.Singleton.BindEvent(
-                b.gameObject,
-                EventTriggerType.PointerExit,
-                delegate { GameHandler.Singleton.BlurCamera(false); }
-            );
+            // GameHandler.Singleton.BindEvent(
+            //     b.gameObject,
+            //     EventTriggerType.PointerExit,
+            //     delegate { GameHandler.Singleton.BlurCamera(false); }
+            // );
         }
 
         // if (GetComponent<Button>())

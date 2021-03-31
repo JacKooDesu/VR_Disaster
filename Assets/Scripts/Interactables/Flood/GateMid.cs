@@ -1,44 +1,37 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
-public class GateMid : CustomInteractable
+public class GateMid : EventTrigger
 {
-    List<Transform> targets;
+    public List<Transform> targets = new List<Transform>();
+    static int currentTarget = 0;
+    public bool isSafe = false;
 
-    public void SetTargets(List<Transform> t)
+    private void OnEnable()
     {
+        EventTrigger trigger = GetComponent<EventTrigger>();
+        EventTrigger.Entry entry = new EventTrigger.Entry();
+        entry.eventID = EventTriggerType.PointerClick;
+        entry.callback.AddListener(delegate { MoveToSafe(); });
+        trigger.triggers.Add(entry);
+    }
+
+    public void BindTarget(List<Transform> t){
         targets = t;
     }
 
-    private void OnTriggerStay(Collider other)
+    public void MoveToSafe()
     {
-        if (!interactable.attachedToHand && !interactable.GetComponent<CustomInteractable>().isFishing)
-        {
-            if (other.transform)
-            {
-                Transform t;
-                for (int i = 0; i < targets.Count; ++i)
-                {
-                    t = targets[i];
-                    if (t == other.transform)
-                    {
-                        transform.SetPositionAndRotation(other.transform.position, other.transform.rotation);
-                        GetComponent<Rigidbody>().isKinematic = true;
-                        GetComponent<Collider>().enabled = false;
-                        fishRodInteract = false;
-                        other.gameObject.SetActive(false);
+        iTween.MoveTo(gameObject, targets[currentTarget].position, 1.2f);
+        iTween.RotateTo(gameObject, targets[currentTarget].eulerAngles, 1.2f);
 
-                        needGoBack = false;
+        isSafe = true;
+        targets[currentTarget].gameObject.SetActive(false);
 
-                        if(i+1 < targets.Count){
-                            targets[i+1].gameObject.SetActive(true);
-                        }else{
-                            GameHandler.Singleton.StageFinish();
-                        }
-                    }
-                }
-            }
-        }
+        GetComponent<Collider>().enabled = false;
+
+        currentTarget++;
     }
 }

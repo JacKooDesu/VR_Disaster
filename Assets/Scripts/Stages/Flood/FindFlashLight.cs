@@ -19,4 +19,10 @@ public class FindFlashLight : Stage
         JacDev.Audio.Flood a = (JacDev.Audio.Flood)GameHandler.Singleton.audioHandler;
         a.PlaySound(a.getRescueKit);
     }
+
+    public override void OnFinish()
+    {
+        JacDev.Audio.Flood a = (JacDev.Audio.Flood)GameHandler.Singleton.audioHandler;
+        a.StopAll();
+    }
 }

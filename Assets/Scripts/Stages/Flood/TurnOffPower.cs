@@ -5,7 +5,7 @@ using UnityEngine;
 public class TurnOffPower : Stage
 {
     public GameObject electronicBoxDoor;
-    public CustomInteractable interactArea;
+    public GameObject interactArea;
 
     public override void OnBegin()
     {
@@ -16,13 +16,7 @@ public class TurnOffPower : Stage
             GameHandler.Singleton.SetLineGuider(true, spawnpoint.position);
 
         interactArea.gameObject.SetActive(true);
-        interactArea.onHoverBegin.AddListener(
-            delegate
-            {
-                GameHandler.Singleton.StageFinish();
-                interactArea.gameObject.SetActive(false);
-            });
-
+        
         JacDev.Audio.Flood a = (JacDev.Audio.Flood)GameHandler.Singleton.audioHandler;
         a.PlaySound(a.turnOffSwitch);
     }

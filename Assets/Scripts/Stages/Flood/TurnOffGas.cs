@@ -1,10 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class TurnOffGas : Stage
 {
-    public CustomInteractable interactArea;
+    public GameObject interactArea;
     public GameObject fire;
 
     public override void OnBegin()
@@ -16,13 +17,14 @@ public class TurnOffGas : Stage
 
         interactArea.gameObject.SetActive(true);
 
-        interactArea.onHoverBegin.AddListener(
-            delegate
-            {
-                GameHandler.Singleton.StageFinish();
-                interactArea.gameObject.SetActive(false);
-            }
-        );
+        EventTrigger.Entry entry = new EventTrigger.Entry();
+        entry.eventID = EventTriggerType.PointerClick;
+        entry.callback.AddListener(delegate
+        {
+            GameHandler.Singleton.StageFinish();
+            interactArea.gameObject.SetActive(false);
+        });
+        interactArea.GetComponent<EventTrigger>().triggers.Add(entry);
 
         JacDev.Audio.Flood a = (JacDev.Audio.Flood)GameHandler.Singleton.audioHandler;
         AudioSource boil = a.PlaySound(a.boilWater);

@@ -1,42 +1,30 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
-public class GateSide : CustomInteractable
+public class GateSide : MonoBehaviour
 {
-    public List<Transform> targets = new List<Transform>();
+    public Transform target;
+    public bool isSafe = false;
 
-    public void SetTargets(List<Transform> t)
+    private void OnEnable()
     {
-        targets = t;
+        EventTrigger trigger = GetComponent<EventTrigger>();
+        EventTrigger.Entry entry = new EventTrigger.Entry();
+        entry.eventID = EventTriggerType.PointerClick;
+        entry.callback.AddListener(delegate { MoveToSafe(); });
+        trigger.triggers.Add(entry);
     }
 
-    private void OnTriggerStay(Collider other)
+    public void MoveToSafe()
     {
-        if (!interactable.attachedToHand && !interactable.GetComponent<CustomInteractable>().isFishing)
-        {
-            if (other.transform)
-            {
-                foreach (Transform t in targets)
-                {
-                    if (t == other.transform)
-                    {
-                        transform.SetPositionAndRotation(other.transform.position, other.transform.rotation);
-                        GetComponent<Rigidbody>().isKinematic = true;
-                        fishRodInteract = false;
-                        other.gameObject.SetActive(false);
+        iTween.MoveTo(gameObject, target.position, 1.2f);
+        iTween.RotateTo(gameObject, target.eulerAngles, 1.2f);
+        target.gameObject.SetActive(false);
 
-                        needGoBack = false;
-                    }
-                }
+        isSafe = true;
 
-                foreach(Transform t in targets){
-                    if(t.gameObject.activeInHierarchy)
-                        return;
-                }
-                GameHandler.Singleton.StageFinish();
-            }
-        }
-
+        GetComponent<Collider>().enabled = false;
     }
 }

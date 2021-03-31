@@ -4,10 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using UnityEngine.Events;
-using UnityStandardAssets.ImageEffects;
 using JacDev.Audio;
 using UnityEngine.SceneManagement;
-using Valve.VR;
 
 public class GameHandler : MonoBehaviour
 {
@@ -53,26 +51,24 @@ public class GameHandler : MonoBehaviour
 
     float timer = 0f;
 
-    public SteamVR_Input_Sources windupInputTarget;
-    public SteamVR_Action_Boolean windUp;
-
     private void Start()
     {
-        if (SceneLoader.Singleton.GetCurrentSceneName() != "Tutorial")
-        {
-            if (LoadPlayerData(SceneLoader.Singleton.GetName()) != null)
-            {
-                SetPlayerData(LoadPlayerData(SceneLoader.Singleton.GetName()));
-            }
-            else
-            {
-                playerData = new PlayerData();
-            }
-        }
-        else
-        {
-            playerData = new PlayerData();
-        }
+        // 讀存檔系統，於Cardboard版本內無效
+        // if (SceneLoader.Singleton.GetCurrentSceneName() != "Tutorial")
+        // {
+        //     if (LoadPlayerData(SceneLoader.Singleton.GetName()) != null)
+        //     {
+        //         SetPlayerData(LoadPlayerData(SceneLoader.Singleton.GetName()));
+        //     }
+        //     else
+        //     {
+        //         playerData = new PlayerData();
+        //     }
+        // }
+        // else
+        // {
+        //     playerData = new PlayerData();
+        // }
 
 
         StartCoroutine(PlayStage(firstStage));
@@ -90,16 +86,6 @@ public class GameHandler : MonoBehaviour
 
         while (!stg.isFinish)
         {
-            if (windUp.GetState(windupInputTarget))
-            {
-                Time.timeScale = 2f;
-                audioHandler.Windup(2f);
-            }
-            else
-            {
-                Time.timeScale = 1f;
-                audioHandler.Windup(1f);
-            }
 
             timer += Time.deltaTime;
 
@@ -171,6 +157,7 @@ public class GameHandler : MonoBehaviour
         UnityEngine.XR.XRDevice.DisableAutoXRCameraTracking(GameHandler.Singleton.cam, b);
     }
 
+    /*
     public void BlurCamera(bool status)
     {
         BlurOptimized blur;
@@ -192,6 +179,7 @@ public class GameHandler : MonoBehaviour
 
         grayscale.enabled = status;
     }
+    */
 
     public IEnumerator Counter(float min, float max, IEnumerator nextFunction)
     {

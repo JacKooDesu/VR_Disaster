@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityStandardAssets.ImageEffects;
-using Valve.VR;
 
 public class Player : MonoBehaviour
 {
     public bool isStop = true;
+
+    float counter = 0;
     float stopTime = 3f;
 
     public float speed;
@@ -19,15 +19,108 @@ public class Player : MonoBehaviour
     GameObject target;
     public bool hasTarget;  //是否有目標物
 
-    public Transform teleportArea;
+    public bool canMove = true;
+    public float moveDistance = 100f;
+    public bool isTeleport = false;
+    public Vector3 teleportTarget;
+
+    float originHeight;
+
+    public CurveLineRenderer curveLine;
+
 
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
+
+        curveLine.gameObject.SetActive(false);
+        originHeight = transform.position.y;
     }
 
     void Update()
     {
+
+        if (canMove)
+        {
+            if (InputHandler.Singleton.isTouch && !InputHandler.Singleton.isHolding)
+            {
+                Ray r = new Ray(transform.localPosition, GameHandler.Singleton.cam.transform.forward * moveDistance);
+                Debug.DrawRay(transform.localPosition, GameHandler.Singleton.cam.transform.forward * moveDistance, Color.yellow, 1f);
+                RaycastHit hit;
+
+                if (Physics.Raycast(r, out hit, moveDistance))
+                {
+                    Debug.Log(hit);
+
+                    if (!curveLine.gameObject.activeInHierarchy)
+                        curveLine.gameObject.SetActive(true);
+                    curveLine.gameObject.SetActive(true);
+
+                    curveLine.SetPoints(
+                            transform.localPosition + (new Vector3(
+                                -Mathf.Cos(Mathf.Deg2Rad * GameHandler.Singleton.cam.transform.localEulerAngles.y),
+                                0,
+                                Mathf.Sin(Mathf.Deg2Rad * GameHandler.Singleton.cam.transform.localEulerAngles.y))) * .2f,
+                            hit.point,
+                            3f,
+                            .5f);
+
+                    if (hit.transform.tag == "Floor")
+                    {
+                        isTeleport = true;
+                        teleportTarget = Vector3.Scale(hit.point, new Vector3(1,0,1));
+
+                        curveLine.SetColor(curveLine.activeColor);
+                    }
+                    else
+                    {
+                        isTeleport = false;
+                        curveLine.SetColor(curveLine.inactiveColor);
+                        // if (curveLine.gameObject.activeInHierarchy)
+                        //     curveLine.gameObject.SetActive(false);
+                    }
+                }
+
+
+            }
+
+            if (InputHandler.Singleton.isClick)
+            {
+                //curveLine.gameObject.SetActive(false);
+
+                if (isTeleport)
+                {
+                    iTween.MoveTo(gameObject, Vector3.up * originHeight + teleportTarget, .5f);
+                    //transform.localPosition = teleportTarget + Vector3.up * 3;
+                    isTeleport = false;
+                }
+
+                InputHandler.Singleton.isClick = false;
+            }
+
+            if (InputHandler.Singleton.isHolding)
+            {
+                isStop = false;
+                counter = 0;
+
+                transform.Translate(
+                    new Vector3(
+                        Mathf.Sin(Mathf.Deg2Rad * GameHandler.Singleton.cam.transform.localEulerAngles.y) * speed * Time.deltaTime,
+                        0,
+                        Mathf.Cos(Mathf.Deg2Rad * GameHandler.Singleton.cam.transform.localEulerAngles.y) * speed * Time.deltaTime));
+
+                isTeleport = false;
+                curveLine.gameObject.SetActive(false);
+            }
+
+            if (Input.GetMouseButtonUp(0))
+            {
+                curveLine.gameObject.SetActive(false);
+            }
+
+            counter += Time.deltaTime;
+        }
+
     }
 
     public void SetTarget(GameObject target)
@@ -38,35 +131,10 @@ public class Player : MonoBehaviour
 
     public void SetCanMove(bool b)
     {
-        if (teleportArea.transform.childCount != 0)
-        {
-            foreach (Transform t in teleportArea.transform)
-            {
-                t.GetComponent<Valve.VR.InteractionSystem.TeleportArea>().locked = !b;
-            }
-        }
-        else
-        {
-            teleportArea.GetComponent<Valve.VR.InteractionSystem.TeleportArea>().locked = !b;
-        }
-    }
+        if (rb == null)
+            rb = GetComponent<Rigidbody>();
 
-    public IEnumerator WaitHandOverHead(UnityEngine.Events.UnityAction nextAction)
-    {
-        Transform leftHand = GetComponentInChildren<Valve.VR.InteractionSystem.Player>().leftHand.transform;
-        Transform rightHand = GetComponentInChildren<Valve.VR.InteractionSystem.Player>().rightHand.transform;
-        Transform camPos = GameHandler.Singleton.cam.transform;
-        while (
-            (leftHand.position.y < camPos.position.y ||
-            rightHand.position.y < camPos.position.y) ||
-            (leftHand.position - camPos.position).magnitude > .5f ||
-            (rightHand.position - camPos.position).magnitude > .5f
-            )
-        {
-            print("not put on head");
-            yield return null;
-        }
-
-        nextAction.Invoke();
+        canMove = b;
+        rb.isKinematic = !b;
     }
 }
