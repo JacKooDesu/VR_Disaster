@@ -50,7 +50,7 @@ public class Player : MonoBehaviour
 
                 if (Physics.Raycast(r, out hit, moveDistance))
                 {
-                    Debug.Log(hit);
+                    Debug.Log(hit.transform.name);
 
                     if (!curveLine.gameObject.activeInHierarchy)
                         curveLine.gameObject.SetActive(true);
@@ -131,10 +131,10 @@ public class Player : MonoBehaviour
 
     public void SetCanMove(bool b)
     {
-        if (rb == null)
-            rb = GetComponent<Rigidbody>();
+        // if (rb == null)
+        //     rb = GetComponent<Rigidbody>();
 
         canMove = b;
-        rb.isKinematic = !b;
+        //rb.isKinematic = !b;
     }
 }
