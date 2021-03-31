@@ -6,6 +6,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.Events;
 using JacDev.Audio;
 using UnityEngine.SceneManagement;
+using UnityStandardAssets.ImageEffects;
 
 public class GameHandler : MonoBehaviour
 {
@@ -157,7 +158,7 @@ public class GameHandler : MonoBehaviour
         UnityEngine.XR.XRDevice.DisableAutoXRCameraTracking(GameHandler.Singleton.cam, b);
     }
 
-    /*
+
     public void BlurCamera(bool status)
     {
         BlurOptimized blur;
@@ -168,18 +169,18 @@ public class GameHandler : MonoBehaviour
 
         blur.enabled = status;
     }
+    /*
+        public void GrayCamera(bool status)
+        {
+            Grayscale grayscale;
+            if (cam.GetComponent<Grayscale>())
+                grayscale = cam.GetComponent<Grayscale>();
+            else
+                grayscale = cam.gameObject.AddComponent<Grayscale>();
 
-    public void GrayCamera(bool status)
-    {
-        Grayscale grayscale;
-        if (cam.GetComponent<Grayscale>())
-            grayscale = cam.GetComponent<Grayscale>();
-        else
-            grayscale = cam.gameObject.AddComponent<Grayscale>();
-
-        grayscale.enabled = status;
-    }
-    */
+            grayscale.enabled = status;
+        }
+        */
 
     public IEnumerator Counter(float min, float max, IEnumerator nextFunction)
     {
