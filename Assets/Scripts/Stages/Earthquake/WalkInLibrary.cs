@@ -13,7 +13,7 @@ public class WalkInLibrary : Stage
 
     public override void OnBegin()
     {
-        GameHandler.Singleton.player.SetCanMove(true);
+        // GameHandler.Singleton.player.SetCanMove(true);
 
         GameHandler.Singleton.MovePlayer(spawnpoint);
 

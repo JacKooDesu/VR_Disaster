@@ -39,28 +39,14 @@ public class SWave : Stage
 
     public override void OnUpdate()
     {
-        if (GameHandler.Singleton.cam.transform.position.y > tableTop.position.y)
-        {
-            if (!waringHUD.activeInHierarchy)
-            {
-                waringHUD.SetActive(true);
-            }
-            waringHUD.GetComponent<UIQuickSetting>().TurnOn();
-            GameHandler.Singleton.BlurCamera(true);
-        }
-        else
-        {
-
-            waringHUD.GetComponent<UIQuickSetting>().TurnOff();
-            GameHandler.Singleton.BlurCamera(false);
-        }
     }
 
     public override void OnFinish()
     {
         //base.OnFinish();
         elevator.SetTrigger("Broken");
-        waringHUD.GetComponent<UIQuickSetting>().TurnOff();
+        // warningHUD is no longer exist in cardboard
+        //waringHUD.GetComponent<UIQuickSetting>().TurnOff();
         GameHandler.Singleton.cam.GetComponent<BlurOptimized>().enabled = false;
     }
 

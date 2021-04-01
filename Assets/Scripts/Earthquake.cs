@@ -80,7 +80,7 @@ public class Earthquake : MonoBehaviour
             //transform.Translate(force * Time.deltaTime);
             rb.velocity = force;
             //rb.AddForce(force,ForceMode.Acceleration);
-            print(force);
+            // print(force);
 
             yield return null;
         }

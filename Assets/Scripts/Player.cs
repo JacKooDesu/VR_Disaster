@@ -68,7 +68,7 @@ public class Player : MonoBehaviour
                     if (hit.transform.tag == "Floor")
                     {
                         isTeleport = true;
-                        teleportTarget = Vector3.Scale(hit.point, new Vector3(1,0,1));
+                        teleportTarget = Vector3.Scale(hit.point, new Vector3(1, 0, 1));
 
                         curveLine.SetColor(curveLine.activeColor);
                     }
@@ -82,6 +82,11 @@ public class Player : MonoBehaviour
                 }
 
 
+            }
+            else
+            {
+
+                curveLine.gameObject.SetActive(false);
             }
 
             if (InputHandler.Singleton.isClick)
