@@ -6,6 +6,7 @@ public class Cover : Stage
 {
     public UIQuickSetting UI;
     public float hintDisplayTime = 3f;
+    public ObjectTweener tweener;
     public override void OnBegin()
     {
         base.OnBegin();
@@ -26,5 +27,6 @@ public class Cover : Stage
     public override void OnFinish()
     {
         base.OnFinish();
+        tweener.MoveNextPoint();
     }
 }

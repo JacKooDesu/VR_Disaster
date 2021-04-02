@@ -133,7 +133,7 @@ public class GameHandler : MonoBehaviour
 
     public void UpdateLine()
     {
-        lineGuider.SetPosition(0, player.transform.position);
+        lineGuider.SetPosition(0, player.foot.position);
     }
 
     // 綁Event在物件上

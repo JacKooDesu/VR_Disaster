@@ -28,6 +28,8 @@ public class Player : MonoBehaviour
 
     public CurveLineRenderer curveLine;
 
+    public Transform foot;
+
 
     private void Start()
     {

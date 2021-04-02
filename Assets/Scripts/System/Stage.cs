@@ -41,7 +41,7 @@ public class Stage : MonoBehaviour
     public virtual void OnUpdate()
     {
         if (spawnpoint != null)
-            if ((GameHandler.Singleton.player.transform.position - spawnpoint.position).magnitude < .8f)
+            if ((GameHandler.Singleton.player.foot.position - spawnpoint.position).magnitude < .8f)
                 GameHandler.Singleton.SetLineGuider(false);
 
     }

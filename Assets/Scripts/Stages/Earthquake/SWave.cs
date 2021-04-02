@@ -16,6 +16,8 @@ public class SWave : Stage
 
     public Animator elevator;
 
+    public ObjectTweener tweener;
+
     public override void OnBegin()
     {
         base.OnBegin();
@@ -48,6 +50,8 @@ public class SWave : Stage
         // warningHUD is no longer exist in cardboard
         //waringHUD.GetComponent<UIQuickSetting>().TurnOff();
         GameHandler.Singleton.cam.GetComponent<BlurOptimized>().enabled = false;
+
+        tweener.MoveNextPoint();
     }
 
     void BreakRoof()

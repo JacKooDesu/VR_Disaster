@@ -9,6 +9,7 @@ public class HoldOn : Stage
     public Transform tableTop;
     public float hintDisplayTime = 3f;
 
+    public ObjectTweener tweener;
     public override void OnBegin()
     {
         base.OnBegin();
@@ -54,5 +55,7 @@ public class HoldOn : Stage
         // 2021.03.11 
         UI.transform.parent.gameObject.SetActive(false);
         GameHandler.Singleton.cam.GetComponent<UnityStandardAssets.ImageEffects.Grayscale>().enabled = false;
+
+        tweener.MoveNextPoint();
     }
 }

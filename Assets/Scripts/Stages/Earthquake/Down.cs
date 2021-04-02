@@ -8,6 +8,7 @@ public class Down : Stage
 {
     public UIQuickSetting UI;
     public float hintDisplayTime = 3f;
+    public ObjectTweener tweener;
 
     public override void OnBegin()
     {
@@ -43,5 +44,6 @@ public class Down : Stage
     public override void OnFinish()
     {
         base.OnFinish();
+        tweener.MoveNextPoint();
     }
 }
