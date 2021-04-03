@@ -49,8 +49,9 @@ public class Player : MonoBehaviour
                 Ray r = new Ray(transform.localPosition, GameHandler.Singleton.cam.transform.forward * moveDistance);
                 Debug.DrawRay(transform.localPosition, GameHandler.Singleton.cam.transform.forward * moveDistance, Color.yellow, 1f);
                 RaycastHit hit;
+                LayerMask layer = LayerMask.GetMask("Roof");
 
-                if (Physics.Raycast(r, out hit, moveDistance))
+                if (Physics.Raycast(r, out hit, moveDistance, ~layer))
                 {
                     Debug.Log(hit.transform.name);
 
