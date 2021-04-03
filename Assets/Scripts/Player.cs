@@ -97,7 +97,7 @@ public class Player : MonoBehaviour
 
                 if (isTeleport)
                 {
-                    iTween.MoveTo(gameObject, Vector3.up * originHeight + teleportTarget, .5f);
+                    Teleport(teleportTarget);
                     //transform.localPosition = teleportTarget + Vector3.up * 3;
                     isTeleport = false;
                 }
@@ -143,5 +143,10 @@ public class Player : MonoBehaviour
 
         canMove = b;
         //rb.isKinematic = !b;
+    }
+
+    public void Teleport(Vector3 point)
+    {
+        iTween.MoveTo(gameObject, Vector3.up * originHeight + point, .5f);
     }
 }

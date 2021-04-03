@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.EventSystems;
 
 public class ChooseExit : Stage
 {
@@ -19,43 +21,42 @@ public class ChooseExit : Stage
 
         JacDev.Audio.Earthquake audio = (JacDev.Audio.Earthquake)GameHandler.Singleton.audioHandler;
         audio.PlaySound(audio.protectHead);
+
+        foreach (StageObject s in stageObjects)
+        {
+            if (s.obj.GetComponentInChildren<EventTrigger>())
+            {
+                EventTrigger.Entry entry = new EventTrigger.Entry();
+                entry.eventID = EventTriggerType.PointerClick;
+                if (s.obj.name.Contains("Exit"))
+                {
+                    entry.callback.AddListener(delegate
+                    {
+                        GameHandler.Singleton.player.Teleport(s.obj.transform.position);
+                        GameHandler.Singleton.StageFinish();
+                    });
+                }
+                else
+                {
+                    entry.callback.AddListener(delegate
+                    {
+                        failedUI.TurnOn();
+                        StartCoroutine(failedUI.WaitStatusChange(delegate
+                        {
+                            GameHandler.Singleton.BlurCamera(false);
+                            GameHandler.Singleton.player.Teleport(originPlayerPosition);
+                        }
+                        ));
+                    });
+                }
+
+                s.obj.GetComponentInChildren<EventTrigger>().triggers.Add(entry);
+            }
+        }
     }
 
     public override void OnUpdate()
     {
-        // foreach (StageObject so in stageObjects)
-        // {
-        //     if (so.obj.GetComponentInChildren<TeleportPoint>().hasTeleported)
-        //     {
-        //         if (so.obj.GetComponentInChildren<TeleportPoint>().title == "ELEVATOR")
-        //         {
-        //             if (!so.obj.activeInHierarchy)
-        //                 return;
-
-        //             so.obj.SetActive(false);
-        //             if (!failedUI.gameObject.activeInHierarchy)
-        //                 failedUI.gameObject.SetActive(true);
-
-        //             failedUI.TurnOn();
-        //             GameHandler.Singleton.BlurCamera(true);
-        //             StartCoroutine(failedUI.WaitStatusChange(
-        //                 delegate
-        //                 {
-        //                     GameHandler.Singleton.BlurCamera(false);
-        //                     GameHandler.Singleton.player.transform.position = originPlayerPosition;
-
-        //                     so.obj.GetComponentInChildren<TeleportPoint>().ResetTeleportStatus();
-        //                 }
-        //             ));
-
-        //         }
-
-        //         else if (so.obj.GetComponentInChildren<TeleportPoint>().title == "EXIT")
-        //         {
-        //             GameHandler.Singleton.StageFinish();
-        //         }
-        //     }
-        // }
     }
 
     public override void OnFinish()
