@@ -9,7 +9,7 @@ public class ChooseRescueKit : Stage
     public override void OnBegin()
     {
         base.OnBegin();
-        ui.TurnOn();
+        // ui.TurnOn();
         JacDev.Audio.Earthquake audio = (JacDev.Audio.Earthquake)GameHandler.Singleton.audioHandler;
         audio.PlaySound(audio.selectWhistle);
     }
