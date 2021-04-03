@@ -44,6 +44,7 @@ public class Down : Stage
     public override void OnFinish()
     {
         base.OnFinish();
+        UI.TurnOff();
         tweener.MoveNextPoint();
     }
 }
