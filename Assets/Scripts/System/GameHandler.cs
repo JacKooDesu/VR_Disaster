@@ -119,8 +119,10 @@ public class GameHandler : MonoBehaviour
                     timer,
                     true);
             }
-            SavePlayerData();
-            SceneLoader.Singleton.Load("MissionSelect");
+
+            Application.Quit();
+            // SavePlayerData();
+            // SceneLoader.Singleton.Load("MissionSelect");
         }
 
     }
