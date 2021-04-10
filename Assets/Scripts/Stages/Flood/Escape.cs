@@ -48,7 +48,7 @@ public class Escape : Stage
     public override void OnUpdate()
     {
         if (spawnpoint != null)
-            if ((GameHandler.Singleton.player.transform.position - spawnpoint.position).magnitude < 1.4f)
+            if ((GameHandler.Singleton.player.transform.position - spawnpoint.position).magnitude < 2.5f)
             {
                 GameHandler.Singleton.SetLineGuider(false);
                 GameHandler.Singleton.StageFinish();
