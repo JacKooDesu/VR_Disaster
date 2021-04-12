@@ -1,14 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.EventSystems;
 
 public class Glass : MonoBehaviour
 {
     Transform origin;
     Transform broken;
     GlassController glassController;
-
-    float breakForce = .8f;
 
     public void SetGlass(Transform origin, Transform broken, GlassController g)
     {
@@ -17,42 +17,27 @@ public class Glass : MonoBehaviour
         this.glassController = g;
     }
 
-    // private void OnTriggerEnter(Collider other)
-    // {
-    //     print(other.gameObject.name);
-    //     if (other.transform.GetComponentInParent<Hand>())
-    //     {
-    //         Hand h = other.transform.GetComponentInParent<Hand>();
-    //         print(h.trackedObject.GetVelocity().magnitude);
-
-    //         if (h.trackedObject.GetVelocity().magnitude > breakForce)
-    //         {
-    //             GlassBroken();
-    //         }
-    //     }
-    //     else if (other.GetComponentInParent<Rigidbody>())
-    //     {
-    //         Rigidbody rb = other.GetComponentInParent<Rigidbody>();
-    //         if (rb.velocity.magnitude > breakForce)
-    //             GlassBroken();
-    //     }
-    //     else if (other.GetComponent<Rigidbody>())
-    //     {
-    //         Rigidbody rb = other.GetComponent<Rigidbody>();
-    //         if (rb.velocity.magnitude > breakForce)
-    //             GlassBroken();
-    //     }
-
-    // }
+    private void OnEnable()
+    {
+        EventTrigger trigger = gameObject.AddComponent<EventTrigger>();
+        EventTrigger.Entry entry = new EventTrigger.Entry();
+        entry.eventID = EventTriggerType.PointerClick;
+        entry.callback.AddListener(delegate { GlassBroken(); });
+        trigger.triggers.Add(entry);
+    }
 
     void GlassBroken()
     {
-        JacDev.Audio.AudioHandler audio = GameHandler.Singleton.audioHandler;
-        audio.PlayAudio(audio.soundList.glassBreak, false, transform);
-        broken.gameObject.SetActive(true);
+        if (glassController.HasBreaker)
+        {
+            JacDev.Audio.AudioHandler audio = GameHandler.Singleton.audioHandler;
+            audio.PlayAudio(audio.soundList.glassBreak, false, transform);
+            broken.gameObject.SetActive(true);
 
-        origin.gameObject.SetActive(false);
+            origin.gameObject.SetActive(false);
 
-        glassController.brokenAction.Invoke();
+            glassController.brokenAction.Invoke();
+        }
+
     }
 }

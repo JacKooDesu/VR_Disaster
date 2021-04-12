@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.EventSystems;
 
 public class BrokenGlass : MonoBehaviour
 {
@@ -9,33 +11,29 @@ public class BrokenGlass : MonoBehaviour
 
     public GlassController glassController;
 
-    private void OnTriggerEnter(Collider other)
+    private void OnEnable()
+    {
+        BindGlassController();
+        EventTrigger trigger = gameObject.AddComponent<EventTrigger>();
+        EventTrigger.Entry entry = new EventTrigger.Entry();
+        entry.eventID = EventTriggerType.PointerClick;
+        entry.callback.AddListener(delegate { Hit(); });
+        trigger.triggers.Add(entry);
+    }
+
+    private void Hit()
     {
         JacDev.Audio.AudioHandler audio = GameHandler.Singleton.audioHandler;
         audio.PlayAudio(audio.soundList.glassBreak, false, transform);
-        
+
         GetComponent<Rigidbody>().isKinematic = false;
 
-        if (other.GetComponent<Rigidbody>())
-        {
-            if (GetComponent<Rigidbody>())
-            {
-                GetComponent<Rigidbody>().velocity = other.GetComponent<Rigidbody>().velocity * 5f;
-            }
-        }
-        else if (other.GetComponentInParent<Rigidbody>())
-        {
-            if (GetComponent<Rigidbody>())
-            {
-                GetComponent<Rigidbody>().velocity = other.GetComponentInParent<Rigidbody>().velocity * 5f;
-
-            }
-        }
         glassController.AddBreakGlass();
         StartCoroutine(GameHandler.Singleton.Counter(3f, 3f, delegate { Destroy(gameObject); }));
     }
 
-    public void BindGlassController(GlassController g){
-        glassController = g;
+    public void BindGlassController()
+    {
+        glassController = FindObjectOfType<GlassController>() as GlassController;
     }
 }

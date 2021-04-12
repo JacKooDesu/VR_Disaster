@@ -39,10 +39,14 @@ public class Player : MonoBehaviour
         curveLine.gameObject.SetActive(false);
         originHeight = transform.position.y;
 
-        RaycastHit hit;
-        Physics.Raycast(transform.position, -transform.up, out hit);
-        NavMeshAgent agent = GetComponent<NavMeshAgent>();
-        agent.baseOffset = Vector3.Distance(transform.position, hit.point);
+        if (GetComponent<NavMeshAgent>() != null)
+        {
+            RaycastHit hit;
+            Physics.Raycast(transform.position, -transform.up, out hit);
+            NavMeshAgent agent = GetComponent<NavMeshAgent>();
+            agent.baseOffset = Vector3.Distance(transform.position, hit.point);
+        }
+
     }
 
     void Update()

@@ -7,6 +7,7 @@ public class BrokenWindow : Stage
     public GlassController glassController;
     public int needBreak = 5;
 
+
     public override void OnBegin()
     {
         JacDev.Audio.FireTruck audio = (JacDev.Audio.FireTruck)GameHandler.Singleton.audioHandler;

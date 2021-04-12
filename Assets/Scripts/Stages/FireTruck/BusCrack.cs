@@ -32,10 +32,9 @@ public class BusCrack : Stage
 
     public void Crash()
     {
-        print("crash");
+        // print("crash");
 
         Player p = GameHandler.Singleton.player;
-        //p.SetCanMove(false);
         jointer.parent.position = GameHandler.Singleton.cam.transform.position;
         Transform originParent = headTransform.parent;
         headTransform.SetParent(jointer);

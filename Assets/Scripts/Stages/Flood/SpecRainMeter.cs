@@ -21,6 +21,7 @@ public class SpecRainMeter : Stage
 
     IEnumerator ShowUI()
     {
+        interactArea.SetActive(false);
         ui.SetActive(true);
         ui.GetComponentInChildren<UIQuickSetting>().TurnOn();
 

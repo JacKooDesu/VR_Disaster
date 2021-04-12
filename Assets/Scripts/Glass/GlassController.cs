@@ -13,6 +13,18 @@ public class GlassController : MonoBehaviour
     public UnityEngine.Events.UnityEvent brokenAction;
 
     int breakCount = 0;
+    public bool hasBreaker = false;
+    public bool HasBreaker
+    {
+        set
+        {
+            hasBreaker = value;
+        }
+        get
+        {
+            return hasBreaker;
+        }
+    }
 
     public void BindGlass()
     {
@@ -38,11 +50,13 @@ public class GlassController : MonoBehaviour
         }
     }
 
-    public void AddBreakGlass(){
+    public void AddBreakGlass()
+    {
         breakCount++;
     }
 
-    public int GetBreakCount(){
+    public int GetBreakCount()
+    {
         return breakCount;
     }
 }
