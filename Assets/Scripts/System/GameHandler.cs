@@ -50,6 +50,8 @@ public class GameHandler : MonoBehaviour
 
     public LineRenderer lineGuider;
 
+    public AsyncLoadingScript sceneLoader;
+
     float timer = 0f;
 
     private void Start()
@@ -112,17 +114,7 @@ public class GameHandler : MonoBehaviour
                 yield return null;
             }
 
-            if (SceneLoader.Singleton.GetCurrentSceneName() != "MissionSelect")
-            {
-                playerData.SetStageData(
-                    SceneLoader.Singleton.GetCurrentSceneName(),
-                    timer,
-                    true);
-            }
-
-            Application.Quit();
-            // SavePlayerData();
-            // SceneLoader.Singleton.Load("MissionSelect");
+            sceneLoader.LoadScene("MissionSelect");
         }
 
     }
@@ -232,53 +224,6 @@ public class GameHandler : MonoBehaviour
         player.transform.rotation = t.rotation;
     }
 
-    public bool CheckPositionHigher(Transform high, Transform low)
-    {
-        if (high.position.y > low.position.y)
-            return true;
-        else
-            return false;
-    }
-
-    public bool CheckPositionHigher(Vector3 high, Vector3 low)
-    {
-        if (high.y > low.y)
-            return true;
-        else
-            return false;
-    }
-
-    public void SavePlayerData()
-    {
-        FileManager file = new FileManager();
-
-        file.Save("/" + playerData.stuID + "_Data", playerData, "/PlayerData");
-        print("Save");
-    }
-
-    public PlayerData LoadPlayerData(string name)
-    {
-        FileManager file = new FileManager();
-
-        return file.Load("/PlayerData", "/" + name + "_Data");
-    }
-
-    public void SetPlayerData(PlayerData d)
-    {
-        playerData = d;
-    }
-
-    public void SetPlayerName(Text text)
-    {
-        playerData.stuID = text.text;
-    }
-
-    public void SetPlayerName(string text)
-    {
-        playerData.stuID = text;
-        SceneLoader.Singleton.SetName(text);
-    }
-
     public void SetLineGuider(bool active, Vector3 destination)
     {
         lineGuider.enabled = active;
@@ -288,12 +233,11 @@ public class GameHandler : MonoBehaviour
             UnityEngine.AI.NavMeshAgent agent = player.GetComponent<UnityEngine.AI.NavMeshAgent>();
             UnityEngine.AI.NavMeshPath path = new UnityEngine.AI.NavMeshPath();
             agent.CalculatePath(destination, path);
-            lineGuider.positionCount = path.corners.Length + 2;
+            lineGuider.positionCount = path.corners.Length + 1;
             for (int i = 0, x = 1; i < path.corners.Length; ++i, ++x)
             {
                 lineGuider.SetPosition(x, path.corners[i]);
             }
-
         }
         else
         {

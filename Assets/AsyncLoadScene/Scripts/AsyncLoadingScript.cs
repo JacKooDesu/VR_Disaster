@@ -7,10 +7,13 @@ using UnityEngine.UI;
 public class AsyncLoadingScript : MonoBehaviour
 {
     static string targetSceneName; // 目標跳轉場景
-    [SerializeField]
-    Slider slider;  // 讀條
+    // [SerializeField]
+    // Slider slider;  // 讀條
     [SerializeField]
     Text text;  // 進度
+
+    [SerializeField]
+    Text loadingText;
     [SerializeField]
     Button finishButton;
 
@@ -42,18 +45,25 @@ public class AsyncLoadingScript : MonoBehaviour
         //     text.text = Mathf.Floor(progress * 100f).ToString() + " %";
         //     yield return null;
         // }
+        loadingText.text = "載入中...";
         while (progress < 0.99f)
         {
-            progress = Mathf.Lerp(progress, async.progress/9*10, Time.deltaTime);
-            slider.value = progress;
+            progress = Mathf.Lerp(progress, async.progress / 9 * 10, Time.deltaTime);
+            // slider.value = progress;
             text.text = Mathf.Floor(progress * 100f).ToString() + " %";
             yield return null;
         }
         progress = 1f;
-        slider.value = 1f;
+        // slider.value = 1f;
         text.text = "100 %";
         finishButton.gameObject.SetActive(true);
-        finishButton.onClick.AddListener(delegate{async.allowSceneActivation = true;});
-        
+        loadingText.text = "點擊繼續";
+        finishButton.onClick.AddListener(delegate { async.allowSceneActivation = true; });
+
+    }
+
+    public string GetCurrentSceneName()
+    {
+        return SceneManager.GetActiveScene().name;
     }
 }
