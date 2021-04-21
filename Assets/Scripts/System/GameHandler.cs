@@ -256,4 +256,8 @@ public class GameHandler : MonoBehaviour
     {
         return currentStage;
     }
+
+    public void LeaveGame(){
+        Application.Quit();
+    }
 }
