@@ -228,9 +228,9 @@ public class GameHandler : MonoBehaviour
     {
         lineGuider.enabled = active;
         lineGuider.SetPosition(0, player.foot.position);
-        if (player.GetComponent<UnityEngine.AI.NavMeshAgent>() != null)
+        if (player.GetComponentInChildren<UnityEngine.AI.NavMeshAgent>() != null)
         {
-            UnityEngine.AI.NavMeshAgent agent = player.GetComponent<UnityEngine.AI.NavMeshAgent>();
+            UnityEngine.AI.NavMeshAgent agent = player.GetComponentInChildren<UnityEngine.AI.NavMeshAgent>();
             UnityEngine.AI.NavMeshPath path = new UnityEngine.AI.NavMeshPath();
             agent.CalculatePath(destination, path);
             lineGuider.positionCount = path.corners.Length + 1;

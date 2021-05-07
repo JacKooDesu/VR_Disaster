@@ -8,6 +8,7 @@ public class Player : MonoBehaviour
 {
     public bool isStop = true;
 
+    public float mouseSensity = 2.5f;
     float counter = 0;
     float stopTime = 3f;
 
@@ -39,14 +40,13 @@ public class Player : MonoBehaviour
         curveLine.gameObject.SetActive(false);
         originHeight = transform.position.y;
 
-        if (GetComponent<NavMeshAgent>() != null)
+        if (GetComponentInChildren<NavMeshAgent>() != null)
         {
             RaycastHit hit;
             Physics.Raycast(transform.position, -transform.up, out hit);
-            NavMeshAgent agent = GetComponent<NavMeshAgent>();
+            NavMeshAgent agent = GetComponentInChildren<NavMeshAgent>();
             agent.baseOffset = Vector3.Distance(transform.position, hit.point);
         }
-
     }
 
     void Update()
@@ -137,8 +137,11 @@ public class Player : MonoBehaviour
             }
 
             counter += Time.deltaTime;
+
+            Tracking();
         }
 
+        
     }
 
     public void SetTarget(GameObject target)
@@ -159,5 +162,14 @@ public class Player : MonoBehaviour
     public void Teleport(Vector3 point)
     {
         iTween.MoveTo(gameObject, Vector3.up * originHeight + point, .5f);
+    }
+
+    public void Tracking()
+    {
+        Vector3 rotation = transform.eulerAngles;
+        rotation.y += Input.GetAxis("Mouse X") * mouseSensity;
+        rotation.x -= Input.GetAxis("Mouse Y") * mouseSensity;
+
+        transform.localRotation = Quaternion.Euler(rotation);
     }
 }
