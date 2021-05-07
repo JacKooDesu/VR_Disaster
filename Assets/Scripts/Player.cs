@@ -22,6 +22,7 @@ public class Player : MonoBehaviour
     public bool hasTarget;  //是否有目標物
 
     public bool canMove = true;
+    public bool canRotate = true;
     public float moveDistance = 100f;
     public bool isTeleport = false;
     public Vector3 teleportTarget;
@@ -138,10 +139,13 @@ public class Player : MonoBehaviour
 
             counter += Time.deltaTime;
 
-            Tracking();
+
         }
 
+        if (canRotate)
+            Tracking();
         
+
     }
 
     public void SetTarget(GameObject target)

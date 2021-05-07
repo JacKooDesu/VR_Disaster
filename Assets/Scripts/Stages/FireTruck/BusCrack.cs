@@ -35,6 +35,7 @@ public class BusCrack : Stage
         // print("crash");
 
         Player p = GameHandler.Singleton.player;
+        p.canRotate = false;
         jointer.parent.position = GameHandler.Singleton.cam.transform.position;
         Transform originParent = headTransform.parent;
         headTransform.SetParent(jointer);
@@ -53,6 +54,7 @@ public class BusCrack : Stage
                     //p.SetCanMove(true);
 
                     GameHandler.Singleton.StageFinish();
+                    GameHandler.Singleton.player.canRotate = true;
                 }));
     }
 }
