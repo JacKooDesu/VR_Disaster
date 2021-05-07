@@ -5739,7 +5739,6 @@ ParticleSystemRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: fc98b7b2c0da354498f1b116b7cbe8ff, type: 2}
-  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -11293,7 +11292,6 @@ ParticleSystemRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: fc98b7b2c0da354498f1b116b7cbe8ff, type: 2}
-  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -21735,7 +21733,6 @@ ParticleSystemRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: fc98b7b2c0da354498f1b116b7cbe8ff, type: 2}
-  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -32647,7 +32644,6 @@ ParticleSystemRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: fc98b7b2c0da354498f1b116b7cbe8ff, type: 2}
-  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -37549,7 +37545,6 @@ ParticleSystemRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 10308, guid: 0000000000000000f000000000000000, type: 0}
-  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -47593,7 +47588,6 @@ ParticleSystemRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: fc98b7b2c0da354498f1b116b7cbe8ff, type: 2}
-  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -55866,7 +55860,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5271115755233224174}
-  m_Mesh: {fileID: 3289431309809287290, guid: d5643720363d99544b8b3cc210f91c89, type: 3}
+  m_Mesh: {fileID: -2543185994492667921, guid: 37d8dcf0b01779244bdb03f3dcb470d1, type: 3}
 --- !u!4 &292822501093382479
 Transform:
   m_ObjectHideFlags: 0
@@ -63155,7 +63149,6 @@ ParticleSystemRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: fc98b7b2c0da354498f1b116b7cbe8ff, type: 2}
-  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -70056,6 +70049,7 @@ MonoBehaviour:
   canvas: {fileID: 0}
   hasTarget: 0
   canMove: 1
+  canRotate: 1
   moveDistance: 100
   isTeleport: 0
   teleportTarget: {x: 0, y: 0, z: 0}
@@ -77792,13 +77786,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5271115755233224174}
-  m_LocalRotation: {x: -0, y: -0, z: -0.49999925, w: 0.86602587}
-  m_LocalPosition: {x: -4.649, y: 4.384841, z: 2.4700732}
-  m_LocalScale: {x: 100, y: 100.000046, z: 100.000046}
+  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 0.266, y: 7.191, z: -2.438}
+  m_LocalScale: {x: 0.016528165, y: 0.016528165, z: 0.016528165}
   m_Children: []
   m_Father: {fileID: 1631969078847758540}
   m_RootOrder: 34
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -60.000004}
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!33 &9148351065726949556
 MeshFilter:
   m_ObjectHideFlags: 0
