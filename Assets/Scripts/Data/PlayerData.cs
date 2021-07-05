@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 [System.Serializable]
 public class PlayerData    // still in progress
@@ -20,7 +21,7 @@ public class PlayerData    // still in progress
     //Constructor
     public PlayerData()
     {
-        stuID = "none";
+        stuID = DateTime.Now.ToString("MM-dd-yyyy");
         missionDatas = new List<MissionData>();
     }
 

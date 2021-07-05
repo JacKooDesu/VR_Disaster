@@ -56,23 +56,25 @@ public class GameHandler : MonoBehaviour
 
     private void Start()
     {
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
         // 讀存檔系統，於Cardboard版本內無效
-        // if (SceneLoader.Singleton.GetCurrentSceneName() != "Tutorial")
-        // {
-        //     if (LoadPlayerData(SceneLoader.Singleton.GetName()) != null)
-        //     {
-        //         SetPlayerData(LoadPlayerData(SceneLoader.Singleton.GetName()));
-        //     }
-        //     else
-        //     {
-        //         playerData = new PlayerData();
-        //     }
-        // }
-        // else
-        // {
-        //     playerData = new PlayerData();
-        // }
-
+        if (SceneLoader.Singleton.GetCurrentSceneName() != "Tutorial")
+        {
+            if (LoadPlayerData(SceneLoader.Singleton.GetName()) != null)
+            {
+                SetPlayerName(System.DateTime.Now.ToString("MM-dd-yyyy"));
+                SetPlayerData(LoadPlayerData(SceneLoader.Singleton.GetName()));
+            }
+            else
+            {
+                playerData = new PlayerData();
+            }
+        }
+        else
+        {
+            playerData = new PlayerData();
+        }
 
         StartCoroutine(PlayStage(firstStage));
     }
@@ -114,6 +116,14 @@ public class GameHandler : MonoBehaviour
                 yield return null;
             }
 
+            if (SceneLoader.Singleton.GetCurrentSceneName() != "MissionSelect")
+            {
+                playerData.SetStageData(
+                    SceneLoader.Singleton.GetCurrentSceneName(),
+                    timer,
+                    true);
+            }
+            SavePlayerData();
             sceneLoader.LoadScene("MissionSelect");
         }
 
@@ -224,6 +234,37 @@ public class GameHandler : MonoBehaviour
         player.transform.rotation = t.rotation;
     }
 
+    public void SavePlayerData()
+    {
+        FileManager file = new FileManager();
+
+        file.Save("/" + playerData.stuID + "_Data", playerData, "/PlayerData");
+        print("Save");
+    }
+
+    public PlayerData LoadPlayerData(string name)
+    {
+        FileManager file = new FileManager();
+
+        return file.Load("/PlayerData", "/" + name + "_Data");
+    }
+
+    public void SetPlayerData(PlayerData d)
+    {
+        playerData = d;
+    }
+
+    public void SetPlayerName(Text text)
+    {
+        playerData.stuID = text.text;
+    }
+
+    public void SetPlayerName(string text)
+    {
+        playerData.stuID = text;
+        SceneLoader.Singleton.SetName(text);
+    }
+
     public void SetLineGuider(bool active, Vector3 destination)
     {
         lineGuider.enabled = active;
@@ -257,7 +298,8 @@ public class GameHandler : MonoBehaviour
         return currentStage;
     }
 
-    public void LeaveGame(){
+    public void LeaveGame()
+    {
         Application.Quit();
     }
 }
